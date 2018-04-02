@@ -3,13 +3,17 @@ $(document).ready(function() {
     var main = $("body");
     var btns = main.find('#carButtons');
 
-    for (var i = 0; i < cars.length; i++) {
-        var carBtn = $("<button>");
-        carBtn.addClass("btn btn-primary");
-        carBtn.attr("data-car", cars[i]);
-        carBtn.text(cars[i]);
-        btns.append(carBtn);
+    function displayBtns () {
+        for (var i = 0; i < cars.length; i++) {
+            var carBtn = $("<button>");
+            carBtn.addClass("btn btn-primary");
+            carBtn.attr("data-car", cars[i]);
+            carBtn.text(cars[i]);
+            btns.append(carBtn);
+        } 
     };
+
+    displayBtns ();
 
     $(document).on("click", ".btn-primary", function() {
         $("#carGifs").empty();
@@ -43,5 +47,20 @@ $(document).ready(function() {
                 $("#carGifs").prepend(carDiv);
             };
         })    
+    })
+
+    $("#addcar").click(function(){
+        event.preventDefault();
+        var newCar = $("#car-input").val().trim();
+        if ($("#car-input").val() == "") {
+            return false;
+        } else {
+            cars.push(newCar);
+            $("#car-input").val("");
+            console.log("addcar Clicked!!!!!");
+            console.log(cars);
+            $('#carButtons').empty();
+            displayBtns ()
+        }
     })
 })
