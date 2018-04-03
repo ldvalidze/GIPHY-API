@@ -20,7 +20,7 @@ $(document).ready(function() {
         var APIKey = "&api_key=dLCp4RBVmUa1jC0jhTq5WRhJdZlT759Q&limit=10";
         var car = $(this).attr("data-car");
         var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + car + APIKey;
-        console.log("clicked");
+        
 
         $.ajax({
             url: queryURL,
@@ -32,20 +32,41 @@ $(document).ready(function() {
 
             var results = response.data;
 
+            console.log(results[0].images.fixed_height.url);
+
             for (var i = 0; i < results.length; i++) {
                 var carDiv = $("<div>");
-                carDiv.addClass("carGif");
-    
+        
                 var p = $("<p>").text("Rating: " + results[i].rating);
-                var carImage = $("<img>");
-            
-                carImage.attr("src", results[i].images.fixed_height.url);
-    
+                var image = $("<img>");
+                image.addClass("carGif");
+
+                image.attr("data-animate", results[i].images.fixed_height.url);
+                image.attr("data-still", results[i].images.fixed_height_still.url);
+                image.attr("src", results[i].images.fixed_height_still.url);
+                image.attr("data-state", "still");
+                
+                
                 carDiv.append(p);
-                carDiv.append(carImage);
+                carDiv.append(image);
     
                 $("#carGifs").prepend(carDiv);
             };
+
+            $(document).on("click", ".carGif", function() {
+                
+                
+                var state = $(this).attr("data-state");
+                
+                if (state === "still") {
+                    console.log("clicked");
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                } else {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                }
+            });
         })    
     })
 
@@ -57,10 +78,8 @@ $(document).ready(function() {
         } else {
             cars.push(newCar);
             $("#car-input").val("");
-            console.log("addcar Clicked!!!!!");
-            console.log(cars);
             $('#carButtons').empty();
-            displayBtns ()
+            displayBtns ();
         }
     })
 })
