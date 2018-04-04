@@ -36,6 +36,7 @@ $(document).ready(function() {
 
             for (var i = 0; i < results.length; i++) {
                 var carDiv = $("<div>");
+                carDiv.addClass("carGifff");
         
                 var p = $("<p>").text("Rating: " + results[i].rating);
                 var image = $("<img>");
@@ -53,22 +54,23 @@ $(document).ready(function() {
                 $("#carGifs").prepend(carDiv);
             };
 
-            $(document).on("click", ".carGif", function() {
+        });
+    });
+
+    $(document).on("click", ".carGif", function() {
                 
                 
-                var state = $(this).attr("data-state");
-                
-                if (state === "still") {
-                    console.log("clicked");
-                    $(this).attr("src", $(this).attr("data-animate"));
-                    $(this).attr("data-state", "animate");
-                } else {
-                    $(this).attr("src", $(this).attr("data-still"));
-                    $(this).attr("data-state", "still");
-                }
-            });
-        })    
-    })
+        var state = $(this).attr("data-state");
+        
+        if (state === "still") {
+            console.log("clicked");
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+        } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+        }
+    });
 
     $("#addcar").click(function(){
         event.preventDefault();
